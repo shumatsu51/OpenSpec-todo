@@ -39,6 +39,8 @@ function loadTodos(): Todo[] {
 function App() {
   const [todos, setTodos] = useState<Todo[]>(loadTodos)
   const [title, setTitle] = useState('')
+  const completedCount = todos.filter((todo) => todo.completed).length
+  const incompleteCount = todos.length - completedCount
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
@@ -74,7 +76,23 @@ function App() {
   return (
     <main>
       <section aria-labelledby="page-title" className="todo-app">
-        <h1 id="page-title">Todo</h1>
+        <div className="title-row">
+          <h1 id="page-title">Todo</h1>
+          <dl aria-label="タスク数" className="todo-counts">
+            <div className="total-count">
+              <dt>すべて</dt>
+              <dd>{todos.length}</dd>
+            </div>
+            <div className="completed-count">
+              <dt>完了済み</dt>
+              <dd>{completedCount}</dd>
+            </div>
+            <div className="incomplete-count">
+              <dt>未完了</dt>
+              <dd>{incompleteCount}</dd>
+            </div>
+          </dl>
+        </div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="new-todo">新しい Todo</label>
           <div className="input-row">
